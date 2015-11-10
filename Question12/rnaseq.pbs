@@ -1,0 +1,39 @@
+#!/bin/sh
+####  PBS preamble
+
+#PBS -N RNA_seq
+
+# Change "bjensen" to your uniqname:
+#PBS -M tjschaff@umich.edu
+#PBS -m abe 
+
+# Change the number of cores (ppn=4), amount of memory, and walltime
+# based on what your job will require:
+#PBS -l nodes=2:ppn=4,mem=2gb,walltime=03:00:00
+#PBS -j oe 
+#PBS -V
+
+#PBS -A eeb416f15_flux
+#PBS -q flux
+#PBS -l qos=flux
+
+####  End PBS preamble
+
+#  Show list of CPUs you ran on, if you're running under PBS
+if [ -n "$PBS_JOBID" ]; then echo -n "Running on nodes/cores: "; qstat -n $PBS_JOBID | tail -1; fi
+
+#  Change to the directory you submitted from
+if [ -n "$PBS_O_WORKDIR" ]; then cd $PBS_O_WORKDIR; fi; echo -n "Current working directory: "; pwd
+echo
+
+#  Echo job script commands as they are executed
+set -x
+
+#  Put your job script commands here:
+module load med bwa
+module load med samtools
+
+bwa index -a is example_assembly.fa > bwa_index.stdout 2> bwa_index.sterr 
+bwa aln -t4 example_assembly.fa example_read_1.fq > example_R1.sai 2> example_read1_bwa_aln.stderr
+bwa aln -t4 example_assembly.fa example_read_2.fq > example_R2.sai 2> example_read2_bwa_aln.stderr
+bwa sampe example_assembly.fa example_R1.sai example_R2.sai example_read_1.fq example_read_2.fq > sam_file.sam 2> sampe.stderr
