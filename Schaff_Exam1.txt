@@ -1,0 +1,117 @@
+Trevor Schaff
+EEB 416 Exam 1
+
+1. Yes, “ecological modeling of populations of organisms” should be considered a bioinformatics research area. An important aspect of ecological studies will be metagenomics, which is the study of genetic material from an environmental sample. Bioinformatics will certainly aid in analyzing this data. Also, bioinformatics can help study different genetic components of individuals within the ecosystem and show things like gene flow, mutation rate, and so on.
+
+2. False. RefSeq is peer reviewed. 
+
+3. An E-value of 3.4 e-178 would demonstrate very high confidence that the database result is homologous to the query. 
+
+4. One way to increase the copy number of our target DNA before sequencing it is through PCR. A second way is through recombination of the DNA fragment into a plasmid vector, transformation into a bacterium, and subsequent cloning of the plasmid-containing bacterium.
+
+5. Eukaryotes generally have 2 genomes per cell: 1 nuclear, 1 mitochondrial. Sometimes they have 3 if they also have chloroplasts.
+Prokaryotes generally have 1 genome per cell. 
+
+6. 1. The accession number for this transcription factor is AFV73403.
+   2. The most appropriate type of blast is a blastp.
+   3. This returned 100 hits.
+   4. There were 44 organisms with homologs.
+   5. 	1. Accession number: XP_002302428.2 E-value: 6e-158
+	2. Accession number: XP_011017151.1 E-value: 2e-153
+	3. Accession number: XP_002285015.1 E-value: 6e-150
+	4. Accession number: XP_007227715.1 E-value: 1e-148
+	5. Accession number: XP_008220277.1 E-value: 6e-147
+	6. Accession number: XP_006434697.1 E-value: 2e-140
+See github repository for FASTA files.
+
+7. The accession number is : NM_001308783.1
+	1. A tblastn is most appropriate in this case.
+	2. 124 blast hits were returned.
+	3. There were 38 organisms with homologs.
+	4.	1. Accession number: XM_002302392.2 E-value: 1e-130
+		2. Accession number: XM_011018849.1 E-value: 7e-124
+		3. Accession number: FQ395161.1 E-value: 1e-117
+		4. Accession number: XM_007227653.1 E-value: 3e-117
+		5. Accession number: NM_001288869.1 E-value: 2e-116
+		6. Accession number: XM_008222055.1 E-value: 4e-115
+See github repository for FASTA files.
+
+8. 1. Yes, their website is: http://www.helsinki.fi/science/metapop/research/mcgenome.html
+   2. Although they do not explicitly state tools that are still in development, they have unplaced scaffolds (28%) that still require chromosome assignments. 
+   3. The tools they have developed related to the Genome sequence are: super scaffolds, unplaced scaffolds, AGP file for scaffolds relative to super scaffolds, scaffolds, contains, and an AGP file for contains relative to scaffolds. They also provide a linkage map with chromosome assignments for super scaffolds and for scaffolds. They provide gene sets, which include nucleotide sequences, protein sequences, gene features for protein-coding genes on scaffolds, gene features for non-coding genes on scaffolds, gene features for mitochondrial DNA on scaffolds, and start and stop sites for protein coding genes on superscaffolds. They include functional annotations for protein coding genes on scaffolds, which include protein descriptions, GO and EC classifications, KEGG pathways, and InterPro annotations. Finally, they give a Transposable element library. 
+   4. NCBI allows access to the genome and gives submitter information, which allows access the University of Helsinki webpage where all of the above information is listed.
+   5. The best option for further SNP discovery would be to do analysis using either limma or baySeq. These softwares most closely model “reality,” and would give the most accurate picture of what SNPs are present in the organism.
+
+9. 1. Number of sequences in Homo_sapiens.GRCh38.cds.all.fa:
+[tjschaff@flux-login3 Exam1]$ grep -c "^>" Homo_sapiens.GRCh38.cds.all.fa 
+101933
+
+   2. Number of lines in the fasta file:
+[tjschaff@flux-login3 Exam1]$ wc -l Homo_sapiens.GRCh38.cds.all.fa 
+2066758 Homo_sapiens.GRCh38.cds.all.fa
+
+   3. Adapter sequence ‘AGATCGG’
+[tjschaff@flux-login3 Exam1]$ grep -c "AGATCGG" Homo_sapiens.GRCh38.cds.all.fa 
+2950
+This adapter sequence is present in 2950 lines in the fasta file.
+
+10. 1. Changing the fasta headers to linear sequences:
+[tjschaff@flux-login3 Exam1]$ awk '/^>/{print ">" ++i; next}{print}' < Homo_sapiens.GRCh38.cds.all.fa > Homo_sapiens.GRCh38.cds.all_linear.fa 
+[tjschaff@flux-login3 Exam1]$ head Homo_sapiens.GRCh38.cds.all_linear.fa 
+>1
+GAAATAGT
+>2
+ACTGGGGGATACG
+>3
+GGGACAGGGGGC
+>4
+CCTTCCTAC
+>5
+GGGACAGGGGGC
+
+   2. Making the new .bed file:
+[tjschaff@flux-login3 Exam1]$ grep -v "^#" Homo_sapiens.GRCh38.82.abinitio.gtf |cut -f1,3,4,5 > Homo_sapiens.GRCh38.82.abinitio.bed
+[tjschaff@flux-login3 Exam1]$ head Homo_sapiens.GRCh38.82.abinitio.bed 
+1	transcript	12190	14149
+1	exon	12190	12227
+1	exon	12613	12721
+1	exon	14051	14149
+1	transcript	14696	24886
+1	exon	24738	24886
+1	exon	18501	18554
+1	exon	18268	18379
+1	exon	17915	18061
+1	exon	17578	17742
+
+   3. Making the two new .gtf files:
+[tjschaff@flux-login3 Exam1]$ grep 'transcript' Homo_sapiens.GRCh38.82.abinitio.gtf > Homo_sapiens.GRCh38.82.abinitio_transcripts.gtf
+[tjschaff@flux-login3 Exam1]$ head Homo_sapiens.GRCh38.82.abinitio_transcripts.gtf 
+1	ensembl	transcript	12190	14149	.	+	.	
+1	ensembl	transcript	14696	24886	.	-	.	
+1	ensembl	transcript	51913	106974	.	+	.	
+1	ensembl	transcript	131158	134833	.	+	.	
+1	ensembl	transcript	171728	184662	.	-	.	
+1	ensembl	transcript	185217	195411	.	-	.	
+1	ensembl	transcript	258541	399100	.	-	.	
+1	ensembl	transcript	450740	451438	.	-	.	
+1	ensembl	transcript	459166	459354	.	+	.	
+1	ensembl	transcript	487145	490816	.	+	.	
+[tjschaff@flux-login3 Exam1]$ grep 'exon' Homo_sapiens.GRCh38.82.abinitio.gtf > Homo_sapiens.GRCh38.82.abinitio_exons.gtf
+[tjschaff@flux-login3 Exam1]$ head Homo_sapiens.GRCh38.82.abinitio_exons.gtf 
+1	ensembl	exon	12190	12227	.	+	.	
+1	ensembl	exon	12613	12721	.	+	.	
+1	ensembl	exon	14051	14149	.	+	.	
+1	ensembl	exon	24738	24886	.	-	.	
+1	ensembl	exon	18501	18554	.	-	.	
+1	ensembl	exon	18268	18379	.	-	.	
+1	ensembl	exon	17915	18061	.	-	.	
+1	ensembl	exon	17578	17742	.	-	.	
+1	ensembl	exon	17233	17364	.	-	.	
+1	ensembl	exon	16854	17055	.	-	.	
+
+
+11. See RMarkdown file in github repository.
+
+12. See .pbs file in github repository.
+
+13. See github repository!
