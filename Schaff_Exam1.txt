@@ -1,6 +1,8 @@
 Trevor Schaff
 EEB 416 Exam 1
 
+Github: https://github.com/tjschaff/Exam1_Schaff
+
 1. Yes, “ecological modeling of populations of organisms” should be considered a bioinformatics research area. An important aspect of ecological studies will be metagenomics, which is the study of genetic material from an environmental sample. Bioinformatics will certainly aid in analyzing this data. Also, bioinformatics can help study different genetic components of individuals within the ecosystem and show things like gene flow, mutation rate, and so on.
 
 2. False. RefSeq is peer reviewed. 
